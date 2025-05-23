@@ -1,6 +1,5 @@
 # mips_utils.py
 
-# Diccionario con formatos básicos (simplificado)
 TIPOS = {
     'add': 'R',
     'sub': 'R',
@@ -53,11 +52,26 @@ def registro_a_bin(reg):
 def procesar_instruccion(instr):
     try:
         partes = instr.replace(',', '').split()
+        if len(partes) == 0:
+            return {'error': 'No se ingresó ninguna instrucción.'}
+
         opcode = partes[0]
-        tipo = TIPOS.get(opcode)
-        
+        if opcode not in TIPOS:
+            return {'error': f'Opcode "{opcode}" no reconocido.'}
+
+        tipo = TIPOS[opcode]
+
+        def validar_registro(reg):
+            if reg not in REGISTROS:
+                raise ValueError(f'Registro inválido: {reg}')
+
         if tipo == 'R':
+            if len(partes) != 4:
+                return {'error': f'Instrucción tipo R requiere 3 registros. Se recibieron {len(partes)-1}.'}
             rd, rs, rt = partes[1], partes[2], partes[3]
+            validar_registro(rd)
+            validar_registro(rs)
+            validar_registro(rt)
             bin_opcode = OPCODES['R']
             bin_rs = registro_a_bin(rs)
             bin_rt = registro_a_bin(rt)
@@ -76,13 +90,24 @@ def procesar_instruccion(instr):
                 'shamt': shamt,
                 'funct': funct
             }
-            
+
         elif tipo == 'I':
             if opcode in ['lw', 'sw']:
+                if len(partes) != 3:
+                    return {'error': f'Instrucción {opcode} requiere formato: {opcode} rt, offset(rs).'}
                 rt = partes[1]
-                offset_reg = partes[2]  # ej. 4($t1)
+                offset_reg = partes[2]
+                validar_registro(rt)
+                if '(' not in offset_reg or ')' not in offset_reg:
+                    return {'error': f'Formato offset incorrecto en {offset_reg}. Debe ser offset(registro).'}
                 offset, reg = offset_reg.split('(')
                 reg = reg.replace(')', '')
+                validar_registro(reg)
+                try:
+                    int(offset)
+                except:
+                    return {'error': f'Offset inválido: {offset}'}
+
                 bin_opcode = OPCODES[opcode]
                 bin_rs = registro_a_bin(reg)
                 bin_rt = registro_a_bin(rt)
@@ -99,7 +124,16 @@ def procesar_instruccion(instr):
                 }
 
             elif opcode == 'beq':
+                if len(partes) != 4:
+                    return {'error': 'Instrucción beq requiere 3 argumentos: beq rs rt offset'}
                 rs, rt, imm = partes[1], partes[2], partes[3]
+                validar_registro(rs)
+                validar_registro(rt)
+                try:
+                    int(imm)
+                except:
+                    return {'error': f'Offset inválido: {imm}'}
+
                 bin_opcode = OPCODES[opcode]
                 bin_rs = registro_a_bin(rs)
                 bin_rt = registro_a_bin(rt)
@@ -118,7 +152,13 @@ def procesar_instruccion(instr):
                 return {'error': 'Instrucción I no soportada aún.'}
 
         elif tipo == 'J':
-            address = int(partes[1])
+            if len(partes) != 2:
+                return {'error': f'Instrucción {opcode} requiere un solo argumento (dirección).'}
+            try:
+                address = int(partes[1])
+            except:
+                return {'error': 'Dirección inválida.'}
+
             bin_opcode = OPCODES[opcode]
             bin_addr = a_binario(address, 26)
             binario = bin_opcode + bin_addr
@@ -140,5 +180,7 @@ def procesar_instruccion(instr):
             'campos': campos,
             'explicacion': explicacion
         }
+    except ValueError as ve:
+        return {'error': str(ve)}
     except Exception as e:
         return {'error': f'Error procesando instrucción: {str(e)}'}
