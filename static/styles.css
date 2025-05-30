@@ -1,135 +1,144 @@
-/* styles.css */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
-
-:root {
-  --neon-purple: #9400FF; /* Un morado vibrante */
-  --neon-pink: #FF00FF;   /* Magenta para acentos */
-  --neon-cyan: #00FFFF;   /* Cyan para brillos o texto destacado */
-  --dark-bg: #120024;     /* Fondo oscuro, casi negro con tinte morado */
-  --light-text: #E0E0E0;  /* Texto principal claro */
-  --card-bg: #200A39;     /* Fondo para tarjetas o secciones */
-  --border-color: #4A0D6F; /* Un morado más oscuro para bordes */
+/* Reset básico */
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: var(--dark-bg);
-  color: var(--light-text);
-  font-family: 'Roboto', sans-serif; /* Fuente base legible */
-  padding-top: 20px; /* Espacio para que no se pegue al borde superior */
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  color: #e0e0e0;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 .container {
-  background-color: var(--card-bg);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px var(--neon-purple), 0 0 40px var(--neon-pink); /* Doble sombra para efecto neón */
-  border: 2px solid var(--neon-purple);
+  background: rgba(25, 23, 45, 0.85);
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.6),
+    inset 0 0 30px rgba(255,255,255,0.05);
+  max-width: 480px;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-h1, h3, h5 {
-  font-family: 'Orbitron', sans-serif; /* Fuente futurista para títulos */
-  color: var(--neon-cyan);
-  text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-purple);
+h1 {
+  font-weight: 700;
+  font-size: 2.8rem;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1.5px;
+  color: #c1b8ff;
 }
 
 .form-label {
-  color: var(--neon-cyan);
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #d3caff;
 }
 
 .form-control {
-  background-color: rgba(255, 255, 255, 0.05); /* Ligeramente transparente */
-  border: 1px solid var(--border-color);
-  color: var(--light-text);
-  caret-color: var(--neon-pink); /* Color del cursor de texto */
-}
-
-.form-control:focus {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: var(--neon-purple);
-  box-shadow: 0 0 10px var(--neon-purple);
-  color: var(--light-text);
+  background-color: #2c2a45;
+  border: 2px solid #7b68ee;
+  color: #ddd;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
 }
 
 .form-control::placeholder {
-  color: rgba(224, 224, 224, 0.6);
+  color: #aaa;
+}
+
+.form-control:focus {
+  border-color: #a995ff;
+  outline: none;
+  box-shadow: 0 0 8px #a995ff44;
+  background-color: #3a3760;
+  color: #fff;
 }
 
 .btn-primary {
-  background-color: var(--neon-purple);
-  border-color: var(--neon-pink);
-  color: var(--light-text);
-  font-weight: bold;
-  padding: 10px 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px var(--neon-purple), inset 0 0 5px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(45deg, #7b68ee, #c1b8ff);
+  border: none;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  width: 100%;
+  cursor: pointer;
+  color: #1a1a3d;
+  box-shadow: 0 6px 15px rgba(123,104,238,0.7);
+  transition: background 0.4s ease, transform 0.2s ease;
+  margin-top: 20px;
 }
 
-.btn-primary:hover, .btn-primary:focus {
-  background-color: var(--neon-pink);
-  border-color: var(--neon-purple);
-  color: #fff;
-  box-shadow: 0 0 15px var(--neon-pink), 0 0 25px var(--neon-purple), inset 0 0 8px rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px); /* Pequeño efecto al pasar el mouse */
+.btn-primary:hover {
+  background: linear-gradient(45deg, #c1b8ff, #7b68ee);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(193,184,255,0.6);
 }
 
 .alert-danger {
-  background-color: rgba(255, 0, 128, 0.2); /* Fondo rosa neón translúcido para error */
-  border: 1px solid var(--neon-pink);
-  color: #fff; /* Texto blanco para mejor contraste */
-  text-shadow: 0 0 5px var(--neon-pink);
-}
-
-.alert-danger strong {
-    color: var(--neon-cyan);
+  background-color: #ff4c4c;
+  border-radius: 10px;
+  padding: 15px 20px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  margin-top: 25px;
+  box-shadow: 0 0 12px #ff4c4caa;
 }
 
 .mt-5 h3 {
-    border-bottom: 2px solid var(--neon-purple);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+  border-bottom: 2px solid #c1b8ff;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #c1b8ff;
 }
 
 ul {
-  list-style: none;
+  list-style-type: none;
   padding-left: 0;
 }
 
 ul li {
-  background-color: rgba(0, 0, 0, 0.2);
-  margin-bottom: 8px;
-  padding: 10px;
-  border-left: 4px solid var(--neon-purple);
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  background: linear-gradient(135deg, #574b8e, #7869d5);
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.95rem;
+  color: #e6e6ff;
+  box-shadow: 0 3px 8px rgba(120,105,213,0.4);
+  transition: background 0.3s ease;
 }
 
 ul li:hover {
-    background-color: rgba(var(--neon-purple-rgb), 0.2); /* Necesitaríamos definir --neon-purple-rgb o usar un color fijo */
-    background-color: rgba(148, 0, 255, 0.2);
+  background: linear-gradient(135deg, #7869d5, #574b8e);
 }
 
-ul li strong {
-  color: var(--neon-cyan);
+p strong {
+  color: #c1b8ff;
+  font-weight: 700;
 }
 
-/* Scrollbar (Opcional, para navegadores WebKit como Chrome/Safari/Edge) */
-::-webkit-scrollbar {
-  width: 10px;
+.mt-5 p {
+  font-size: 1.05rem;
+  line-height: 1.5;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--dark-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--neon-purple);
-  border-radius: 5px;
-  border: 1px solid var(--neon-pink);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--neon-pink);
+/* Scroll suave */
+body, html {
+  scroll-behavior: smooth;
 }
